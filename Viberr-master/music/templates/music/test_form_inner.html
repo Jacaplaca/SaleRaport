@@ -1,0 +1,21 @@
+{% load crispy_forms_tags %}
+<title>Home</title>
+{# <div class="row">#}
+{# <div class="popupform">#}
+
+    <form class="form-horizontal" action="{{ request.path }}?next={{ request.path }}" method="post" value='cotokufa'>
+{# <input type="text" name="" value="co to jest">#}
+        {% crispy form %}
+        <input type="submit" class="btn btn-submit col-md-offset-2">
+    </form>
+
+    {# <form action="{% url 'music:dwa_formularze' %}" method="post">{% csrf_token %}#}
+      {# {{ form1.as_p }}#}
+      {# {{ form2.as_p }}#}
+        {# <input type="submit" value="Dodaj klienta" />#}
+    {# </form>#}
+
+
+
+    </div>
+{# </div>#}

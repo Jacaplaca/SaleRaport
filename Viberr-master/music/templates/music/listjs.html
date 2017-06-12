@@ -1,0 +1,67 @@
+<!-- for a table with a parent div of id "my-cool-sortable-table-wrapper", -->
+<!-- and columns of class names "gender", "age" & "city" -->
+{% load static %}
+{% load i18n %}
+
+
+
+
+<div id="my-cool-sortable-table-wrapper">
+  <table>
+    <thead>
+        <th class="sort" data-sort="gender">Age</th>
+        <th class="sort" data-sort="age">gender</th>
+        <th class="sort" data-sort="city">City</th>
+    </thead>
+    <tbody class="list">
+      {% for album in albums %}
+      <tr>
+        <td class="age">{{album.aktywnosc}}</td>
+        <td class="gender">{{album.kodpocztowy}}</td>
+        <td class="city">{{album.miejscowosc}}</td>
+      </tr>
+      {% endfor %}
+  </table>
+
+</div>
+
+
+
+<div id="my-cool-sortable-table-wrapper__">
+    <table>
+        <thead>
+            <th class="sort" data-sort="gender">Gender</th>
+            <th class="sort" data-sort="age">Age</th>
+            <th class="sort" data-sort="city">City</th>
+        </thead>
+        <tbody class="list">
+            <tr>
+                <td class="gender">ćma</td>
+                <td class="age">18</td>
+                <td class="city">Berlin</td>
+            </tr>
+            <tr>
+                <td class="gender">temat</td>
+                <td class="age">46</td>
+                <td class="city">Reykjavik</td>
+            </tr>
+            <tr>
+                <td class="gender">żaba</td>
+                <td class="age">20</td>
+                <td class="city">Łisboa</td>
+            </tr>
+            <!-- and so on ...-->
+        </tbody>
+    </table>
+</div>
+
+{# <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>#}
+<script src="{% static "music/js/list.js" %}"></script>
+<script type="text/javascript">
+    var options = {
+        valueNames: [ 'gender', 'age', 'city' ]
+    };
+    var contactList = new List('my-cool-sortable-table-wrapper', options);
+    contactList.sort('gender', 'city', { alphabet: "AaĄaBbCcĆćDdEeEęFfGgHhIiJjKkLlŁłMmNnOoÓoPpQqRrSsŚśTtUuVvXxYyZzŹźŻż" });
+    contactList.alphabet = "AaĄaBbCcĆćDdEeEęFfGgHhIiJjKkLlŁłMmNnOoÓoPpQqRrSsŚśTtUuVvXxYyZzŹźŻż";
+</script>

@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+@font-face {
+  font-family: 'Satisfy';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Satisfy'), url("../fonts/Satisfy.woff") format('woff');
+}
+
+.klasa {
+  background: red;
+  font-size: 25px;
+}
+
+
+/*.some-class {
+  width: 130px!important;
+}*/
+
+
+.form-control {
+width: 100%!important;
+}
+
+.hero {width: 100px!important;
+
+}
+
+.formlabel {
+  text-align: left!important;
+  font-weight: 100;
+  display: inline-table;
+}
+
+.some-form-class {
+
+}
+
+.form-group{display: inline-block;}
+
+
+.wyroznienieform{
+  /*border: 1px solid blue;*/
+  /*width: 150px;*/
+  /*margin-right: 100px;*/
+  margin-top: 20px;
+}
+
+
+#wizytaformularz {
+    background-color: #e3eaf1;
+    padding: 20px;
+    border-radius: 2px;
+    width: 800px;
+    margin: 0 auto;
+    border: 1px solid rgba(169, 188, 208, 0.61);
+}
+
+legend {
+    display: block;
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 19px;
+    font-size: 22px;
+    line-height: inherit;
+    color: rgba(56, 97, 141, 0.35);
+    border: 0;
+    border-bottom: 1px solid rgba(169, 188, 208, 0.61);
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+fieldset {
+    margin-top: 30px;
+}
+
+.wasko {
+  width: 5%!important;
+  text-align: right!important;
+}
+
+.waskousun {widht: 5%!important;}

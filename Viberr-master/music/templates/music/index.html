@@ -1,0 +1,123 @@
+{% extends 'music/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load repeatedblocks %}
+{% block albums_active %}active{% endblock %}
+
+{% block extra_head %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head>
+
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+
+
+    {# <script src="https://cdn.datatables.net/autofill/2.2.0/js/dataTables.autoFill.min.js"></script>#}
+    {# <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.2.0/css/autoFill.dataTables.min.css" />#}
+    {# <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>#}
+    {# <script src="{% static "music/js/jquery.js" %}"></script>#}
+    {# <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />#}
+
+    {# <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>#}
+    {# <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"</script>#}
+    {# <script src="{% static "music/js/jquery.dataTables.min1015.js" %}"></script>#}
+
+    {# <script src="{% static "music/js/jquery.dataTables.js" %}"></script>#}
+
+    {# <script src="{% static "music/js/persian.js" %}"></script>#}
+    {# <script src="{% static "music/js/turkish-string.js" %}"></script>#}
+    {# <script src="{% static "music/js/enum.js" %}"></script>#}
+
+
+
+
+
+
+    {# <script src="//cdn.datatables.net/plug-ins/1.10.15/i18n/Polish.json"></script>#}
+    {# <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>#}
+    {# <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" />#}
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.jss"></script>#}
+    {# <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>#}
+    {# <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>#}
+    {# <script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>#}
+
+</head>
+{% endblock %}
+
+{% block body %}
+
+<script type="text/javascript">sessionStorage.clear();</script>
+
+      <section>
+      <div id="payload" class="container albums-container container-fluid">
+        {# <div class="form-inline">#}
+          <div id="paginationisearch">
+          <div class="paginationzew col-lg-9">
+            <div class="pagination"></div>
+          </div>
+          <div id="szukajbox" class="szukaj col-lg-3">
+            <input type="text" placeholder="Szukaj" class="search form-control col-lg-6"/>
+          </div>
+        </div>
+        <p></p>
+        <table class="table table-bordered tabelki ctable table">
+          <thead>
+              <th class="sort {% if user.username != "admin" %}ukryj{% endif %}" data-sort="user">Pracownik</th>
+              <th class="sort" data-sort="termin">Termin</th>
+              <th class="sort {% if user.username == "admin" %}ukryj{% endif %}" data-sort="godziny">W godzinach</th>
+              <th class="sort" data-sort="aktywnosc">Aktywność</th>
+              <th class="sort" data-sort="kodpocztowy">Kod pocztowy</th>
+              <th class="sort" data-sort="miejscowosc">Miejscowość</th>
+          </thead>
+          <tbody class="list">
+            {% for album in albums %}
+            <tr>
+              <td class="user {% if user.username != "admin" %}ukryj{% endif %}">{{album.user}}</td></a>
+              <td class="termin">{{album.termin|date:" Y-m-d (D)"}}</td>
+              <td class="user {% if user.username == "admin" %}ukryj{% endif %}">{{album.godzinastart}} - {{album.godzinakoniec}}</td>
+              <td class="aktywnosc">{{album.aktywnosc}}</td>
+              <td class="kodpocztowy">{{album.kodpocztowy}}</td>
+              <td class="miejscowosc">{{album.miejscowosc}}</td>
+              <td class="wasko {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}"><a href="{% url 'music:create_raport' album.id %}" class="btn btn-primary btn-sm {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %} {% if album.aktywnosc != "Wizyta"%}ukryj{% endif %}" role="button">Raport</a></td>
+              <td>
+                <a href="{% url 'music:favorite_album' album.id %}" class="btn btn-default btn-sm btn-favorite {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}" role="button">
+                <span class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %} {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}"></span></a>
+                <a href="{% url 'music:detail' album.id %}" class="btn btn-primary btn-sm glyphicon glyphicon-eye-open" role="button"></a>
+              </td>
+            </tr>
+            {% endfor %}
+
+
+        </table>
+      </div>
+      </section>
+
+
+      <script src="{% static "music/js/list.js" %}"></script>
+      <script type="text/javascript">
+      var options = {
+        valueNames: ['user', 'termin', 'aktywnosc', 'kodpocztowy', 'miejscowosc'],
+        page: 15,
+        pagination: [{
+          name: "pagination",
+          paginationClass: "pagination",
+          outerWindow: 2,
+          left:2,
+          righ:2,
+        }]
+      };
+      var hackerList = new List('payload', options);
+      // hackerList.sort('miejscowosc', { alphabet: "AaĄaBbCcĆćDdEeEęFfGgHhIiJjKkLlŁłMmNnNńOoÓoPpQqRrSsŚśTtUuVvWwXxYyZzŹźŻż" });
+      hackerList.alphabet = "AaĄaBbCcĆćDdEeEęFfGgHhIiJjKkLlŁłMmNnNńOoÓoPpQqRrSsŚśTtUuVvWwXxYyZzŹźŻż";
+      </script>
+
+
+
+
+
+
+
+
+{% endblock %}

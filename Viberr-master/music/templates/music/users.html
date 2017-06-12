@@ -1,0 +1,82 @@
+{% extends 'music/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block body %}
+<div class="container">
+
+
+  <form method="get">
+    <div class="well">
+      {# <h4 style="margin-top: 0">Filter</h4>#}
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.aktywnosc.label_tag }}
+          {% render_field filter.form.aktywnosc class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.miejscowosc.label_tag }}
+          {% render_field filter.form.miejscowosc class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.kodpocztowy.label_tag }}
+          {% render_field filter.form.kodpocztowy class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.termin.label_tag }}
+          {% render_field filter.form.termin class="form-control" %}
+        </div>
+        <div class="form-group col-sm-8 col-md-6">
+          {{ filter.form.groups.label_tag }}
+          <div>
+            {% for choice in filter.form.groups %}
+              <label class="checkbox-inline">
+                {{ choice.tag }} {{ choice.choice_label }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Filtruj
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Date joined</th>
+        <th>Groups</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for album in filter.qs %}
+        <tr>
+          <td>{{ album.termin }}</td>
+          <td>{{ album.godzinastart }} - {{ album.godzinakoniec}}</td>
+          <td>{{ album.aktywnosc }}</td>
+          <td>{{ album.kodpocztowy }}</td>
+          <td>{{ album.miejscowosc }}</td>
+          <td>
+            {# {% for group in user.groups.all %}#}
+              {# {{ group }}#}
+            {# {% empty %}#}
+              <em class="text-muted">No group</em>
+            {# {% endfor %}#}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No data</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endblock %}
+
+{# https://simpleisbetterthancomplex.com/tutorial/2016/11/28/how-to-filter-querysets-dynamically.html#}

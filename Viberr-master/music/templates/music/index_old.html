@@ -1,0 +1,85 @@
+{% extends 'music/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load repeatedblocks %}
+{% block albums_active %}active{% endblock %}
+{% block body %}
+<script type="text/javascript">
+
+sessionStorage.clear();
+
+$( function() {
+
+
+  $("#id_aktywnosc").change(function () {
+    console.log( $(this).val() );
+    var aktywnosc = $(this).serialize();
+    $.ajax({
+        type: "GET",
+        url: '/ajax/',
+        data: {'aktywnosc': aktywnosc},
+
+        success: function(data){
+             alert (data);
+        },
+        error: function(){
+            alert("Could not write to server file ")
+        }
+    });
+
+
+  });
+
+})
+
+$( function() {
+  $( "#id_termin_0" ).datepicker({
+    maxViewMode: 0,
+    language: "pl",
+    multidate: false,
+    multidateSeparator: "-",
+    daysOfWeekHighlighted: "0,6",
+    autoclose: true,
+    todayHighlight: true,
+    toggleActive: true});
+  console.log("testowanie");
+
+  $( "#id_termin_1" ).datepicker({
+    maxViewMode: 0,
+    language: "pl",
+    multidate: false,
+    multidateSeparator: "-",
+    daysOfWeekHighlighted: "0,6",
+    autoclose: true,
+    todayHighlight: true,
+    toggleActive: true});
+  console.log("testowanie");
+
+} );
+
+
+
+
+
+
+</script>
+<div class="albums-container ">
+                <table class="tabelki table ">
+                      {% repeated_block naglowek %}
+                  {% endblock %}
+                        {% for album in albums %}
+                          {# {% if album.is_favorite %}#}
+                          {% repeated_block tabelka %}
+                            <tr class="table">
+                              <td>
+                                <a href="{% url 'music:favorite_album' album.id %}" class="btn btn-default btn-sm btn-favorite {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}" role="button">
+                              <span class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %} {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}"></span></a>
+                            </td>
+                            </tr>
+                          {% endblock %}
+                      {% endfor %}
+                    </table>
+
+
+{% endblock %}

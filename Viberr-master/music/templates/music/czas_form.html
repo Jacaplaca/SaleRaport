@@ -1,0 +1,24 @@
+{% extends 'music/base.html' %}
+{% block title %}Add a New Album{% endblock %}
+{% block albums_active %}active{% endblock %}
+{% block body %}
+{% load staticfiles %}
+
+
+<link rel="stylesheet" href="{% static 'music/css/bootstrap.min.css' %}"/>
+
+{# <link rel="stylesheet" href="{% static 'music/css/style.css' %}"/>#}
+<link rel="stylesheet" href="{% static 'music/css/timepicki.css' %}"/>
+
+<script src="{% static 'music/js/jquery-ui-timepicker-addon.js' %}"></script>
+<script src="{% static 'music/js/timepicki.js' %}"></script>
+
+
+
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Dodaj" />
+</form>
+
+
+{% endblock %}

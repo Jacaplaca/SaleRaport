@@ -1,0 +1,47 @@
+{% load widget_tweaks %}
+<!--
+{% for field in form %}
+  {% if field.name != 'termin' %}
+      <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <span class="text-danger small">{{ field.errors }}</span>
+          </div>
+          <label class="control-label col-sm-2" for="song_title">{{ field.label_tag }}</label>
+          <div class="col-sm-10">{{ field }}</div>
+      </div>
+  {% else %}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <span class="text-danger small">{{ field.errors }}</span>
+        </div>
+        <label class="control-label col-sm-2" for="song_title">{{ field.label_tag }}</label>
+        <div class="col-sm-2"><input type="date" class="form-control" name="{{ form.termin.name }}" id="id_{{ form.termin.name }}" value="{{ object.termin|date:"Y-m-d" }}"></div>
+    </div>
+-->
+
+{# {{ form.as_p}}#}
+
+
+
+    {# <button onclick="myFunction()">Try it</button>#}
+<!--
+    <p id="demo"></p>
+    <input id="nazwa" type="text" name="nazwa" value="">
+    <script>
+    function myFunction() {
+        var str = "2012-12-12";
+        var url      = window.location.href;
+        var urlsplit = url.split("/");
+        var username = urlsplit[5];
+        document.getElementById("demo").innerHTML = username;
+        document.getElementById("id_termin").value = str;
+    }
+    myFunction()
+    -->
+
+
+
+
+
+  {% endif %}
+{% endfor %}

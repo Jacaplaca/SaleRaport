@@ -1,0 +1,130 @@
+{% extends 'music/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load i18n %}
+{% block body %}
+<script src="{% static 'music/js/main.js' %}"></script>
+<script src="{% static 'music/js/jquery.min.js' %}"></script>
+
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+
+<link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+
+
+<link rel="stylesheet" href="{% static 'music/css/bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'music/css/main.css' %}"/>
+
+<link rel="stylesheet" href="{% static 'music/css/timepicki.css' %}"/>
+
+<script src="{% static 'music/js/jquery-ui-timepicker-addon.js' %}"></script>
+<script src="{% static 'music/js/timepicki.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'music/css/bootstrap-datepicker3.css' %}"/>
+<script src="{% static 'music/js/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'music/js/bootstrap-datepicker.pl.min.js' %}"></script>
+
+<div class="container">
+<h1>Stwórz raport z wizyty</h1>
+{% crispy form %}
+
+<!--
+<form id=”id-personal-data-form” action="" method="post">{% csrf_token %}
+    {{ form|crispy }}
+    {# <a href={% url "music:create_client" %}?next={{ request.path }}>Dodaj klienta nie zwykly sposob</a>#}
+  </form>
+    <input type="submit" class="btn btn-default" value="Stwórz raport" />
+-->
+
+
+
+
+
+<a href="/popup/">nie wyskakuje</a>
+
+<a href="{% url "music:wizyta_create_client"%}" class="js-popup-link">POP</a>
+<div id="popup"></div>
+
+<script type="text/javascript">
+$(function(){
+  $('.js-popup-link').click(function(e){
+    e.preventDefault()
+    $('#popup').dialog({modal: true}).dialog('open').load(this.href)
+  })
+})
+
+
+$( function() {
+  $( "#id_termin" ).datepicker({   
+    maxViewMode: 0,
+    language: "pl",
+    multidate: false,
+    multidateSeparator: "-",
+    daysOfWeekHighlighted: "0,6",
+    autoclose: true,
+    todayHighlight: true,
+    toggleActive: true});
+  console.log("test");
+  $('#id_godzinastart, #id_godzinakoniec').timepicki({show_meridian:false, step_size_minutes:10, reset: true, min_hour_value:6, max_hour_value:22 });
+} );
+// bootstrap-datepicker sandbox αlphα
+
+
+window.onload = function() {
+  if (sessionStorage.length > 0){
+  console.log(sessionStorage.length);
+    var termin = sessionStorage.getItem("id_termin");
+    id_termin.value = termin;
+    var godzinastart = sessionStorage.getItem("id_godzinastart");
+    id_godzinastart.value = godzinastart;
+    var godzinakoniec = sessionStorage.getItem("id_godzinakoniec");
+    id_godzinakoniec.value = godzinakoniec;
+    var miasto = sessionStorage.getItem("id_miejscowosc");
+    id_miejscowosc.value = miasto;
+    // var akt = sessionStorage.getItem("id_aktywnosc");
+    // id_aktywnosc.value = akt;
+    var kod = sessionStorage.getItem("id_kodpocztowy");
+    id_kodpocztowy.value = kod;
+    var sprzedaz = sessionStorage.getItem("id_sprzedaz");
+    id_sprzedaz.value = sprzedaz;
+    // var klient = sessionStorage.getItem("id_klient");
+    // id_klient.value = klient;
+  }
+}
+
+
+$(document).ready(function() {
+    $(this).change(zmiana);
+    // $('#id_group').change(zmiana);
+    console.log(this)
+
+});
+
+function zmiana(){
+        console.log("zmiana nastąpiła");
+        var termin = document.getElementById("id_termin");
+        // if termin == null;
+        sessionStorage.setItem("id_termin", termin.value);
+        var godzinastart = document.getElementById("id_godzinastart");
+        sessionStorage.setItem("id_godzinastart", godzinastart.value);
+        var godzinakoniec = document.getElementById("id_godzinakoniec");
+        sessionStorage.setItem("id_godzinakoniec", godzinakoniec.value);
+        // var aktywnosc = document.getElementById("id_aktywnosc");
+        // sessionStorage.setItem("id_aktywnosc", aktywnosc.value);
+        var miejscowosc = document.getElementById("id_miejscowosc");
+        sessionStorage.setItem("id_miejscowosc", miejscowosc.value);
+        var kod = document.getElementById("id_kodpocztowy");
+        sessionStorage.setItem("id_kodpocztowy", kod.value);
+        // var klient = document.getElementById("id_klient");
+        // sessionStorage.setItem("id_klient", klient.value);
+        var sprzedaz = document.getElementById("id_sprzedaz");
+        sessionStorage.setItem("id_sprzedaz", sprzedaz.value);
+        return true;
+
+}
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% extends 'music/base.html' %}
+{% load repeatedblocks %}
+{% block albums_active %}active{% endblock %}
+{% block body %}
+
+
+
+
+<div class="container">
+  <h1 class="h1klasa">Próba tabeli</h1>
+
+
+
+      <div id="tabelkiid">
+        <table class="tabelki ctable table sortable ">
+          <tr class="trfavorite">
+              {% repeated_block naglowek %}
+                  <th>Data</th>
+                  <th>od - do</th>
+                  <th>Aktywność</th>
+                  <th>Kod pocztowy</th>
+                  <th>Miejscowość</th>
+                  <th>Usuń/Edytuj/Ważne</th>
+                </tr>
+          {% endblock %}
+
+                {% for album in albums %}
+                  {% if album.is_favorite %}
+                  {% repeated_block tabelka %}
+                    <tr class="table {% if album.is_favorite %}trfavorite{% endif %}">
+                      <td>{{ album.termin }}</td>
+                      <td>{{ album.godzinastart }} - {{ album.godzinakoniec}} </td>
+                      <td>{{ album.aktywnosc }}</td>
+                      <td>{{ album.kodpocztowy }}</td>
+                      <td>{{ album.miejscowosc }}</td>
+                      <td><form action="{% url 'music:delete_album' album.id %}" method="post" style="display: inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="album_id" value="{{ album.id }}" />
+                      <button type="submit" class="btn btn-default btn-sm">
+                      <span class="glyphicon glyphicon-trash"></span>
+                      </button>
+                      </form>
+                      <a href="{% url 'music:update_album' album.id %}" class="btn btn-primary btn-sm" role="button">Edytuj album</a>
+                      <a href="{% url 'music:favorite_album' album.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
+                      <span class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %}"></span></a></td>
+                    </tr>
+                  {% endblock %}
+                {% endif %}
+
+              {% endfor %}
+            </table>
+
+<p></p>
+<p></p>
+
+<div id="tabelkiid">
+  <table class="tabelki ctable table sortable ">
+    <tr class="">
+              {% repeat naglowek %}
+                {% for album in albums %}
+                  {% if album.is_favorite == False %}
+                  {% repeat tabelka %}
+
+                {% endif %}
+              {% endfor %}
+            </table>
+
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'music/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load repeatedblocks %}
+{% block albums_active %}active{% endblock %}
+
+{% block extra_head %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head>
+
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+{% endblock %}
+
+{% block body %}
+
+<div class="col-sm-12">
+    <h2 class="{% if user.username == "admin" %}ukryj{% endif %}">Raporty z wizyt użytkownika: {{ user.username }}</h1>
+    <h2 class="{% if user.username != "admin" %}ukryj{% endif %}">Raporty z wizyt pracowników</h2>
+      <br>
+</div>
+
+<script type="text/javascript">sessionStorage.clear();</script>
+
+      <section>
+      <div id="payload" class="container albums-container container-fluid">
+        {# <div class="form-inline">#}
+          <div id="paginationisearch">
+          <div class="paginationzew col-lg-4">
+            <div class="pagination"></div>
+          </div>
+          <div id="szukajbox" class="szukaj col-lg-3">
+            <input type="text" placeholder="Szukaj" class="search form-control col-lg-2"/>
+          </div>
+          <div id="przyciski" class="szukaj col-lg-5">
+            <span id="filtersprzedaz" class=" col-lg-3 btn btn-default">Sprzedaż</span>
+            <span id="filterzamowienie" class=" col-lg-3 btn btn-default">Zamówienie</span>
+            <span id="filterlunch" class=" col-lg-3 btn btn-default">Lunch</span>
+            <span id="filterreset" class=" col-lg-3 btn btn-default">Reset</span>
+          </div>
+        </div>
+        <p></p>
+        <table class="table table-bordered tabelki ctable table">
+          <thead>
+              <th class="sort {% if user.username != "admin" %}ukryj{% endif %}" data-sort="user">Pracownik</th>
+              <th class="sort" data-sort="termin">Termin</th>
+              <th class="sort" data-sort="godziny">W godzinach</th>
+              <th class="sort" data-sort="klient">Klient</th>
+              <th class="sort" data-sort="sprzedaz">Sprzedaż</th>
+              <th class="sort" data-sort="zamowienie">Zamówienie</th>
+              <th class="sort" data-sort="lunch">Lunch</th>
+              <th class="sort" data-sort="nowyklient">Nowy klient</th>
+              <th class="sort" data-sort="nrwizyty">Wizyta</th>
+
+              <th class="sort" data-sort="kodpocztowy">Kod pocztowy</th>
+              <th class="sort" data-sort="miejscowosc">Miejscowość</th>
+          </thead>
+          <tbody class="list">
+            {% for album in albums %}
+            <tr>
+              <td class="user  centruj{% if user.username != "admin" %}ukryj{% endif %}">{{album.user}}</td></a>
+              <td class="termin centruj">{{album.termin|date:" Y-m-d"}}</td>
+              <td class="user centruj">{{album.godzinastart}} - {{album.godzinakoniec}}</td>
+              <td class="klient">{{album.klient}}</td>
+              <td class="sort sprzedaz centruj {% if album.sprzedaz == True%}tak{% elif album.sprzedaz != True%}nie{% endif %}">{% if album.sprzedaz == True%}Tak{% elif album.sprzedaz != True%}Nie{% endif %}</td>
+              <td class="sort zamowienie centruj {% if album.zamowienie == True%}tak{% elif album.zamowienie != True%}nie{% endif %}">{% if album.zamowienie == True%}Tak{% elif album.zamowienie != True%}Nie{% endif %}</td>
+              <td class="sort lunch centruj {% if album.lunch == True%}tak{% elif album.lunch != True%}nie{% endif %}">{% if album.lunch == True%}Tak{% elif album.lunch != True%}Nie{% endif %}</td>
+              <td class="nowyklient centruj">{{album.nowyklient}}</td>
+              <td class="nrwizyty centruj">{{album.numerwizyty}}</td>
+
+              <td class="kodpocztowy centruj">{{album.kodpocztowy}}</td>
+              <td class="miejscowosc">{{album.miejscowosc}}</td>
+              <td class="wasko {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}"><a href="{% url 'music:create_raport' album.id %}" class="btn btn-primary btn-sm {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %} {% if album.aktywnosc != "Wizyta"%}ukryj{% endif %}" role="button">Raport</a></td>
+              <td>
+                <a href="{% url 'music:favorite_album' album.id %}" class="btn btn-default btn-sm btn-favorite {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}" role="button">
+                <span class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %} {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}"></span></a>
+                <a href="{% url 'music:raport_detail' album.id %}" class="btn btn-primary btn-sm glyphicon glyphicon-eye-open" role="button"></a>
+              </td>
+            </tr>
+            {% endfor %}
+
+
+        </table>
+      </div>
+      </section>
+
+
+      <script src="{% static "music/js/list.js" %}"></script>
+      <script type="text/javascript">
+      var options = {
+        valueNames: ['user', 'termin', 'aktywnosc', 'kodpocztowy', 'miejscowosc','klient', 'nowyklient', 'nrwizyty', 'sprzedaz', 'zamowienie', 'lunch'],
+        page: 15,
+        pagination: [{
+          name: "pagination",
+          paginationClass: "pagination",
+          outerWindow: 2,
+          left:2,
+          righ:2,
+        }]
+      };
+      var hackerList = new List('payload', options);
+      var filterSprzedazButton = document.getElementById("filtersprzedaz");
+      filterSprzedazButton.addEventListener("click", function() {
+        hackerList.filter(function(item) {
+          if (item.values().sprzedaz =="Tak") {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      });
+
+      var filterZamowienieButton = document.getElementById("filterzamowienie");
+      filterZamowienieButton.addEventListener("click", function() {
+        hackerList.filter(function(item) {
+          if (item.values().zamowienie =="Tak") {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      });
+
+      var filterLunchButton = document.getElementById("filterlunch");
+      filterLunchButton.addEventListener("click", function() {
+        hackerList.filter(function(item) {
+          if (item.values().lunch =="Tak") {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      });
+      var removeFiltersButton = document.getElementById("filterreset");
+      removeFiltersButton.addEventListener("click", function() {
+        hackerList.filter();
+      });
+
+
+      // hackerList.sort('miejscowosc', { alphabet: "AaĄaBbCcĆćDdEeEęFfGgHhIiJjKkLlŁłMmNnNńOoÓoPpQqRrSsŚśTtUuVvWwXxYyZzŹźŻż" });
+      hackerList.alphabet = "AaĄaBbCcĆćDdEeEęFfGgHhIiJjKkLlŁłMmNnNńOoÓoPpQqRrSsŚśTtUuVvWwXxYyZzŹźŻż";
+      </script>
+
+
+
+
+
+{# https://codepen.io/jscruz27/pen/jWEyKN#}
+
+
+{% endblock %}

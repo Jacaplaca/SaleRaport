@@ -1,0 +1,196 @@
+{% extends 'music/base.html' %}
+{% load repeatedblocks %}
+{% block albums_active %}active{% endblock %}
+{% load static %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<div class="albums-container container-fluid">
+
+    <!-- Albums -->
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="{% if user.username == "admin" %}ukryj{% endif %}">Zakończone wizyty użytkownika: {{ user.username }}</h1>
+            <h2 class="{% if user.username != "admin" %}ukryj{% endif %}">Raporty z wizyt pracowników</h2>
+              <br>
+        </div>
+        {% if albums %}
+
+              <div id="tabelkiid">
+                <table class="tabelkawizyty ctable table sortable ">
+                  <tr>
+                      {% repeated_block naglowek %}
+                          <th class="{% if user.username != "admin" %}ukryj{% endif %}">Pracownik</th>
+                          <th>Data</th>
+                          <th>od - do</th>
+                          <th>Klient</th>
+                          <th>NIP</th>
+                          <th>Miejscowość</th>
+                          <th>Kod pocztowy</th>
+                          <th class="graficzki">Sprzedaż</th>
+                          <th class="graficzki">Zamówienie</th>
+                          <th class="graficzki">Lunch</th>
+                          <th>Nowy klient</th>
+                          <th>Nr wizyty</th>
+                          <th>Uwagi</th>
+                          <th class="{% if request.get_full_path == "/music/zakonczone/" %}ukryj{% endif %}"></th>
+                        </tr>
+                  {% endblock %}
+
+                        {% for album in albums %}
+                          {# {% if album.is_favorite %}#}
+                          {% repeated_block tabelka %}
+                            <tr class="table {% if album.zakonczono == True %}zakonczone{% endif %}">
+                              <td class="{% if user.username != "admin" %}ukryj{% endif %}"><a name="q" href="{% url 'music:user_activities' album.user_id %}">{{ album.user }}</a></td>
+                              <td>{{ album.termin }}</td>
+                              <td>{{ album.godzinastart }} - {{ album.godzinakoniec}} </td>
+                              <td>{{ album.klient }}</td>
+                              <td>{{album.nip}}</td>
+                              <td>{{ album.miejscowosc }}</td>
+                              <td>{{ album.kodpocztowy }}</td>
+                              <td class="centruj">{% if album.sprzedaz == True%}<img width="20px" src="{%  static 'confirm.png' %}" alt="">{% elif album.sprzedaz != True%}<img width="20px" src="{%  static 'no.png' %}" alt="">{% endif %}</td>
+                              <td class="centruj">{% if album.zamowienie == True%}<img width="20px" src="{%  static 'confirm.png' %}" alt="">{% elif album.zamowienie != True%}<img width="20px" src="{%  static 'no.png' %}" alt="">{% endif %}</td>
+                              <td class="centruj">{% if album.lunch == True%}<img width="20px" src="{%  static 'confirm.png' %}" alt="">{% elif album.lunch != True%}<img width="20px" src="{%  static 'no.png' %}" alt="">{% endif %}</td>
+                              {# <td>{{album.sprzedaz}}</td>#}
+                              {# <td>{{album.zamowienie}}</td>#}
+                              {# <td>{{album.lunch}}</td>#}
+                              <td>{{album.nowyklient}}</td>
+                              <td>{{album.numerwizyty}}</td>
+                              <td class="tdnajszersze"><form action="{% url 'music:delete_album' album.id %}" method="post" style="display: inline;">
+                              {% csrf_token %}
+                              <input type="hidden" name="album_id" value="{{ album.id }}" />
+                              <button type="submit" class="btn btn-default btn-sm {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}">
+                              <span class="glyphicon glyphicon-trash"></span>
+                              </button>
+                              </form>
+                              <a href="{% url 'music:update_zakonczone' album.id %}" class="btn btn-primary btn-sm {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}" role="button">Raport</a>
+                              <a href="{% url 'music:update_album' album.id %}" class="btn btn-primary btn-sm {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}" role="button">Edytuj</a>
+                              <a href="{% url 'music:favorite_album' album.id %}" class="btn btn-default btn-sm btn-favorite {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}" role="button">
+                              <span class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %} {% if album.zakonczono or user.username == "admin"%}ukryj{% endif %}"></span></a>
+                              <a href="{% url 'music:detail' album.id %}" class="btn btn-primary btn-sm glyphicon glyphicon-eye-open" role="button"></a>
+                            </td>
+                            </tr>
+                          {% endblock %}
+                        {# {% endif %}#}
+
+                      {% endfor %}
+                    </table>
+
+        <p></p>
+        <p></p>
+<!--
+        <div id="tabelkiid">
+          <table class="tabelki ctable table sortable ">
+            <tr class="">
+                      {% repeat naglowek %}
+                        {% for album in albums %}
+                          {% if album.is_favorite == False %}
+                          {% repeat tabelka %}
+
+                        {% endif %}
+                      {% endfor %}-->
+                    </table>
+
+
+
+
+
+
+
+        {% else %}
+
+            <div class="col-sm-12">
+                <br>
+                <a href="{% url 'music:create_album' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Dodaj aktywność
+                    </button>
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <!-- If user searches and there are songs -->
+    {% if songs %}
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Songs</h3>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Song Title</th>
+                                    <th>Artist</th>
+                                    <th>Audio File</th>
+                                    <th>Album</th>
+                                    <th>Favorite</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for song in songs %}
+                                    <tr>
+                                        <td>{{ song.song_title }}</td>
+                                        <td>{{ song.album.artist }}</td>
+                                        <td>
+                                            <a target="_blank" href="{{ song.audio_file.url }}">
+                                                <button type="button" class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'music:detail' song.album.id %}">
+                                                <img src="{{ song.album.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
+                                            </a>
+                                            <a href="{% url 'music:detail' song.album.id %}">{{ song.album.album_title }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'music:favorite' song.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    {% endif %}
+
+
+
+        {# <button onclick="myFunction()">Try it</button>#}
+    <!--
+        <p id="demo"></p>
+        <input id="nazwa" type="text" name="nazwa" value="">
+        <script>
+        function myFunction() {
+            var str = "2012-12-12";
+            var url      = window.location.href;
+            var urlsplit = url.split("/");
+            var username = urlsplit[5];
+            document.getElementById("demo").innerHTML = username;
+            document.getElementById("id_termin").value = str;
+        }
+        myFunction()
+        -->
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+{# <a href="{% url 'music' %}"></a>#}
+{% endblock %}

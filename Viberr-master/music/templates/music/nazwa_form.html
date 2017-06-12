@@ -1,0 +1,6 @@
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Dodaj nazwę" />
+</form>
+{# {{request.META.HTTP_REFERER}} to jt#}
+{# <a href="{{request.META.HTTP_REFERER}}">nono</a>#}

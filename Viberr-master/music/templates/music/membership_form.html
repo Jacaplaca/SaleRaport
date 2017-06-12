@@ -1,0 +1,247 @@
+{% load static %}
+{% load i18n %}
+<script src="{% static 'music/js/main.js' %}"></script>
+<script src="{% static 'music/js/jquery.min.js' %}"></script>
+<link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'music/css/main.css' %}"/>
+
+<link rel="stylesheet" href="{% static 'music/css/bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+{# <script src="{% static 'music/js/myscript.js' %}"></script>#}
+{# <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>#}
+{# <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>#}
+{# <script type="text/javascript" src="{% static 'music/js/myscript.js' %}"></script>#}
+{# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
+<script>
+
+// window.onbeforeunload = function() {
+//     sessionStorage.setItem(input, $('#id_person').val());
+// }
+
+// próbowanie z wieloma polami na raz
+
+//find all the form elements in your form,
+//then bind an event handler to all of the elements for the `change` event
+
+
+////////////
+// window.onload = function() {
+//
+//     // var persona = sessionStorage.getItem("id_person");
+//     // // if (input !== null) $('#id_person').val(input);
+//     // id_person.value = persona;
+//
+//     // for (var i = 0; i < sessionStorage.length; i++){
+//     var persona = sessionStorage.getItem(sessionStorage.key(3));
+//     var id_zmienione = sessionStorage.key(3);
+//     // var key = sessionStorage.key( i );
+//     // var item = JSON.parse( sessionStorage.getItem( id_zmienione ) );
+//
+//     var cos = id_zmienione;
+//     document.getElementById("demo").innerHTML =
+//     typeof 3 +
+//     typeof id_zmienione +
+//     typeof cos +
+//     typeof item;
+//
+//     console.log(cos);
+//     cos.value = 8;
+//     console.log(id_zmienione);
+//     // $("#id_group").attr("value", "3");
+//     }
+//
+//
+//   //   for (var i = 0; i < sessionStorage.length; i++){
+//   //   var id_zmienione = sessionStorage.key(i);
+//   //   var zmienione = sessionStorage.getItem(sessionStorage.key(i));
+//   //   // if (input !== null) $('#id_person').val(input);
+//   //   console.log(id_zmienione);
+//   //   console.log(zmienione);
+//   //   id_zmienione.value = zmienione;
+//   // }
+//
+//   // var id_zamowienie = true;
+//
+//   // console.log(typeof id_zamowienie); // "boolean"
+//
+//
+// $(document).ready(function() {
+//   console.log("wszystkie na raz teraz")
+// $("#formularz").find('input, textarea, text, select').on('change', function (event) {
+//   console.log("wszystkie na raz")
+//     //this now refers to the "changed" element
+//
+//     var name  = this.name,
+//         value = this.value,
+//         id    = this.id,
+//         dObj  = {};//create object to pass as data parameter to AJAX request
+//
+//     //set the key as the name of the input, and the value as the value of the input
+//     dObj[name] = value;
+//     console.log(name)
+//     console.log(value)
+//     console.log(id)
+//
+//     var zmienione = document.getElementById(id);
+//     sessionStorage.setItem(id, zmienione.value);
+//     // localStorage.setItem("test", JSON.stringify(test));
+//
+// });
+// });
+////////////////
+
+
+$(document).ready(function(){
+    $("button").click(function(){
+        $("#id_person").hide();
+        console.log("There was a click 3");
+    });
+});
+
+// $(document).ready(function(){
+//   $("h1").click(function(){
+//     console.log("There was a click");
+//   });
+// });
+
+function check_field_value(){
+    if($("#id_person option:selected").text() == 'Jacek') {
+        // #id_field_four should be actually the id of the HTML element
+        // that surrounds everything you want to hide.  Since you did
+        // not post your HTML I can't finish this part for you.
+        $('h2').hide();
+        console.log("There was a click 1");
+        var zmienna = $(this).val();
+        console.log(zmienna);
+    } else {
+        $('h2').show();
+        console.log("There was a click 2");
+        var zmienna = $(this).val();
+        // console.log(zmienna);
+        // localStorage.setItem(zmienna, $('#id_person').val());
+        // console.log(zmienna);
+    }
+}
+
+
+
+$(document).ready(function() {
+    $('h2').show();
+    // set things up so my function will be called when field_three changes
+    $('#id_person').change(check_field_value);
+    // var zmienna = $(this).text();
+    // console.log(zmienna);
+    // set the state based on the initial values
+    // check_field_value.call($('#id_person').get(0));
+});
+
+
+
+
+// function check_field_value() {
+//     if($('#id_person').val() == 'A Value') {
+//         // #id_field_four should be actually the id of the HTML element
+//         // that surrounds everything you want to hide.  Since you did
+//         // not post your HTML I can't finish this part for you.
+//         $('h1').hide();
+//     } else {
+//         $('h1').show();
+//     }
+// }
+// $(document).ready(function() {
+//     // set things up so my function will be called when field_three changes
+//     $('#id_person').change(check_field_value);
+//
+//     // set the state based on the initial values
+//     check_field_value.call($('#id_field_three').get(0));
+// });
+
+// Tutaj sprawdzam czy zmienila sie wartosc wyboru i odpalam funkcje zapisania do localStorage
+
+
+
+// window.onload = function() {
+//
+//     var persona = sessionStorage.getItem("id_person");
+//     var jakasproba = id_person;
+//     jakasproba.value = persona;
+//     var grupa = sessionStorage.getItem("id_group");
+//     id_group.value = grupa;
+//     document.getElementById("demo").innerHTML =
+//     typeof jakasproba +
+//     typeof id_person +
+//     typeof persona;
+// }
+//
+//
+// $(document).ready(function() {
+//     $(this).change(zmiana);
+//     // $('#id_group').change(zmiana);
+//     console.log(this)
+//
+// });
+//
+// function zmiana(){console.log("zmiana nastąpiła")
+//         var persona = document.getElementById("id_person");
+//         sessionStorage.setItem("id_person", persona.value);
+//         var grupa = document.getElementById("id_group");
+//         sessionStorage.setItem("id_group", grupa.value);
+//         return true;
+// }
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</head>
+<body>
+
+  <div id="overlay">
+       <div>
+            <p>Content you want the user to see goes here.</p>
+       </div>
+       <a href='#' onclick='overlay()'>close</a>
+  </div>
+
+<h2>This is a heading</h2>
+
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
+<p id="demo"></p>
+<button>Click me to hide paragraphs</button>
+<a href='#' onclick='overlay()'>Click here to show the overlay</a>
+
+
+
+<form action="" method="post">{% csrf_token %}
+  <div id="formularz">
+    {{ form.as_p }}
+  </div>
+
+{# <a href="{% url 'music:create_person' %}">chcesz założyc nowego klienta?</a>#}
+
+<p id="id_field_four">To jest tekst</p>
+<h1 class="test">asdfs</h1>
+    <input type="submit" value="Ok" />
+</form>
+
+{# <a href="http://cnn.com" onclick="return popitup(http://google.pl)"
+    >{% trans 'music:create_person' %}</a>#}
+
+
+<script type="text/javascript">
+function hello(){
+  console.log("hello word!")
+}
+</script>

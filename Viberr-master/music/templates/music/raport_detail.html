@@ -1,0 +1,71 @@
+{% extends 'music/base.html' %}
+{% block aktywnosc %}{{ raporty }}{% endblock %}
+{% block raportys_active %}active{% endblock %}
+{% load static %}
+{% block body %}
+<div class="container-fluid songs-container container">
+
+    <div class="row">
+
+        <!-- Left raporty Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {# <a href="{% url 'music:detail' .id %}">#}
+                        {# {% if raporty.raporty_logo %}#}
+                            {# <img src="{{ raporty.raporty_logo.url }}" class="img-responsive">#}
+                        {# {% else %}#}
+                            {# <h3>No image to display</h3>#}
+                        {# {% endif %}#}
+                    {# </a>#}
+                    <h2><small>Pracownik: {{ raporty.user }}</small></h2>
+                    <h2></h2>
+                    <h3></h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Song Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                {# <li role="presentation" class="active"><a href="{% url 'music:detail' raporty.id %}">View All</a></li>#}
+                {# <li role="presentation"><a href="{% url 'music:create_song' raporty.id %}">Add New Song</a></li>#}
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>{{ raporty.termin }}</h2>
+                    <h3>{{raporty.aktywnosc}} od godziny {{raporty.godzinastart}} do godziny {{ raporty.godzinakoniec }} w {{ raporty.kodpocztowy }} {{ raporty.miejscowosc }}</h3>
+                    <br>
+                    <h4>Czynność zakończona: {% if raporty.zakonczono == 0 %}Nie{% else %}Tak{% endif %}</h4>
+                    <br>
+
+                    <h3>Dane klienta:</h3>
+                    {{ raporty.klient }}<br>
+                    NIP: {{raporty.nip}}<br>
+                    {{ raporty.miejscowosc }} {{ raporty.kodpocztowy }}
+
+
+                    Czy był lunch? <td class="centruj">{% if raporty.lunch == True%}<img width="20px" src="{%  static 'confirm.png' %}" alt="">{% elif raporty.lunch != True%}<img width="20px" src="{%  static 'no.png' %}" alt="">{% endif %}</td><br>
+                    Czy miała miejsce sprzedaż? <td class="centruj">{% if raporty.sprzedaz == True%}<img width="20px" src="{%  static 'confirm.png' %}" alt="">{% elif raporty.sprzedaz != True%}<img width="20px" src="{%  static 'no.png' %}" alt="">{% endif %}</td><br>
+                    Czy klient złożył zamówienie <td class="centruj">{% if raporty.zamowienie == True%}<img width="20px" src="{%  static 'confirm.png' %}" alt="">{% elif raporty.zamowienie != True%}<img width="20px" src="{%  static 'no.png' %}" alt="">{% endif %}</td><br>
+
+
+                    Czym jest klient zainteresowany? {{raporty.nowyklient}}<br>
+                    Nr wizyty: {{raporty.numerwizyty}}
+
+
+                    <h4>Uwagi:</h4>
+                    <p>{% if raporty.uwagi|length == 0 %}Brak uwag{% else %}{{raporty.uwagi}}{% endif %}</p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

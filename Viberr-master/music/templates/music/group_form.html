@@ -1,0 +1,66 @@
+{% load static %}
+{% load i18n %}
+{# <script src="{% static 'music/js/main.js' %}"></script>
+<script src="{% static 'music/js/jquery.min.js' %}"></script>#}
+
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+
+<link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'music/css/main.css' %}"/>
+
+<link rel="stylesheet" href="{% static 'music/css/bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Dodaj grupę" />
+</form>
+
+
+<script type="text/javascript">
+// This function is for showing the modal
+ $(function () {
+
+     $(".add_category_show_button").click(function () {
+         $.ajax({
+             type: 'GET',
+             url: '/music/nazwa',
+             data: $("form").serialize(),
+             cache: false,
+             success: function (data, status) {
+                 $('#nazwa_form_id').html(data);
+                 $('#nazwa_form_id').modal()
+             }
+         });
+     }); });
+
+// This second function is for submitting the form inside the modal and handling validation
+
+ $(function () {
+
+     $(".add_category_submit_button").click(function () {
+         $.ajax({
+             type: 'POST',
+             url: '/music/nazwa/',
+             data: $("form").serialize(),
+             cache: false,
+             success: function (data, status) {
+                 if (data['stat'] == "ok") {
+                     $('#nazwa_form_id').modal('hide');
+                     $('#nazwa_form_id').children().remove();
+                     $('#id_nazwa')
+                         .append($("<option></option>")
+                             .attr("value", data['new_itemcategory_key'])
+                             .text(data['new_itemcategory_value']))
+                         .val(data['new_itemcategory_key']);
+                 }
+                 else {
+                     $('#nazwa_form_id').html(data);
+                     $('#nazwa_form_id').modal('show');
+                 }
+             }
+         });
+     }); });
+</script>

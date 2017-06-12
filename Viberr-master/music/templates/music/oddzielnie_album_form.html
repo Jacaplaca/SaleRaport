@@ -1,0 +1,40 @@
+{% extends 'music/base.html' %}
+{% block title %}Add a New Album{% endblock %}
+{% block album_active %}active{% endblock %}
+
+{% block body %}
+      <form class="form-contact" action="" method="POST">
+      {% csrf_token %}
+
+      <fieldset class="form-group">
+
+        <label class="control-label" for="id_{{ form.artist.name }}">{{ form.artist.label_tag }}</label>
+          <div class="form-control">
+            <input type="text" class="form-control" name="{{ form.artist.name }}" id="id_{{ form.artist.name }}">
+              <p class="help-text">{{ form.artist.errors }} </p></div>
+
+        <label class="control-label" for="id_{{ form.album_title.name }}">{{ form.album_title.label_tag }}</label>
+          <div class="form-control">
+            <input type="text" class="form-control" name="{{ form.album_title.name }}" id="id_{{ form.album_title.name }}">
+              <p class="help-text">{{ form.album_title.errors }} </p></div>
+
+              <label class="control-label" for="id_{{ form.genre.name }}">{{ form.genre.label_tag }}</label>
+                <div class="form-control">
+                  <input type="text" class="form-control" name="{{ form.genre.name }}" id="id_{{ form.genre.name }}">
+                    <p class="help-text">{{ form.genre.errors }} </p></div>
+
+              <label class="control-label" for="id_{{ form.termin.name }}">{{ form.termin.label_tag }}</label>
+                <div class="form-control">
+                  <input type="date" class="form-control" name="{{ form.atermin.name }}" id="id_{{ form.termin.name }}">
+                    <p class="help-text">{{ form.termin.errors }} </p></div>
+
+
+
+
+
+
+      </fieldset>
+
+         <input type="submit" value="Submit"  class="btn btn-primary">
+      </form>
+{% endblock %}

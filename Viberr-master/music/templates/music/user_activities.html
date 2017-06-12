@@ -1,0 +1,20 @@
+{% extends 'music/base.html' %}
+{% block aktywnosc %}{{ album }}{% endblock %}
+{% block albums_active %}active{% endblock %}
+
+{% block body %}
+{{ album.user_id}}
+{{ album.username}}
+{{ username}}
+{{ user}}
+{{ album.user}}
+{{ request.GET.q }}
+{% for album in albums  %}
+{{ album.termin }}
+{{ album.user_id}}
+{{ album.username}}
+{{ album.user}}
+{{ request.GET.q }}
+{% endfor %}
+
+{% endblock %}
